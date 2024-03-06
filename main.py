@@ -1,5 +1,7 @@
 import hashlib
-import time, timeit
+import time
+import timeit
+
 import plotly.graph_objects as go
 
 
