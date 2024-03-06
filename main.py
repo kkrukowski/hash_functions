@@ -2,8 +2,9 @@ import hashlib
 import time, timeit
 import plotly.graph_objects as go
 
-# Function that hashes text by every hashing algorithms in hashlib
+
 def hashing_algs():
+    """Function that hashes text by every hashing algorithms in hashlib and return hashing data"""
     text = input("Enter text to hash: ")
     results = []
     algorithms = hashlib.algorithms_available
@@ -26,8 +27,9 @@ def hashing_algs():
         print()
     return results
 
-# File Hashing
-def hash_file(hashing_algorithm, file_path):
+
+def hash_file(hashing_algorithm: str, file_path: str) -> str:
+    """Hash passed files and return hashed data"""
     if hashing_algorithm not in hashlib.algorithms_available:
         raise ValueError("Algorithm not available in hashlib!")
 
@@ -39,8 +41,9 @@ def hash_file(hashing_algorithm, file_path):
     return file_hash
 
 
-def check_file_hash(file_path, expected_hash, algorithm):
-    hashed_file = hash_file(algorithm, file_path)
+def check_file_hash(file_path: str, expected_hash: str, algorithm: str) -> bool:
+    """Function that checks if hashed file has same passed expected hash based on given hashed algorithm"""
+    hashed_file = hash_file(hashing_algorithm=algorithm, file_path=file_path)
     if str(hashed_file) == str(expected_hash):
         print("Hash is valid!")
         return True
@@ -51,16 +54,17 @@ def check_file_hash(file_path, expected_hash, algorithm):
 # Messages hashing
 
 
-def gen_message(size):
+def gen_message(size: int) -> str:
+    """Generate some message of a specific size"""
     return "a" * size
 
 
-def messages_hashing_bechmark(hashing_algorithm):
+def messages_hashing_bechmark(hashing_algorithm: str = "md5"):
     sizes = [100, 1000, 10000, 100000, 1000000]
     times = []
 
     for size in sizes:
-        message = gen_message(size)
+        message = gen_message(size=size)
         time_data = timeit.timeit(lambda: hashlib.new(hashing_algorithm, message.encode()), number=100)
         times.append(time_data)
 
@@ -76,10 +80,10 @@ def main():
     hashing_algs()
 
     # 2./3. Hash and verify ubuntu.iso file hash
-    check_file_hash("/ubuntu.iso", "071d5a534c1a2d61d64c6599c47c992c778e08b054daecc2540d57929e4ab1fd", "sha256")
+    check_file_hash(file_path="/ubuntu.iso", expected_hash="071d5a534c1a2d61d64c6599c47c992c778e08b054daecc2540d57929e4ab1fd", algorithm="sha256")
 
     # 3. Benchmark messages hashing
-    messages_hashing_bechmark("md5")
+    messages_hashing_bechmark()
 
 
 if __name__ == '__main__':
